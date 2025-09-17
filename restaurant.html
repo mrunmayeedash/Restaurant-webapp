@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Restaurant</title>
+<style>
+:root{
+  --coral:#ff7272;
+  --deep-coral:#f56b67;
+  --dark:#111;
+  --muted:#4b4b4b;
+  --max-width:1200px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial;
+  background:linear-gradient(90deg,#FFF2B8 10%,#f8d9cb 45%,#FFD0DD 60%);
+}
+
+/* NAV */
+.nav{
+  position:sticky;
+  top:0;z-index:80;
+  background:var(--coral);
+  padding:.9rem 1.25rem;backdrop-filter:blur(2px);
+  border-bottom:2px solid rgba(0,0,0,0.06);
+}
+.wrap{
+  max-width:var(--max-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+}
+.brand{font-weight:800;letter-spacing:2px;}
+.menu{display:flex;gap:2rem;align-items:center;}
+.menu a{
+  color:#000;text-decoration:none;
+  font-weight:600;
+  letter-spacing:3px;
+  transition:color .3s ease;
+}
+.menu a:hover{color:#fff;}
+.hambtn{display:none;
+width:34px;
+height:34px;
+background:none;
+border:none;
+cursor:pointer;}
+
+/* HERO */
+.hero{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:70vh;
+  max-width:var(--max-width);
+  margin: auto;
+  border-radius:2px;
+  overflow:hidden;
+}
+.hero-left{
+  padding:6rem 6vw;
+  background:linear-gradient(90deg,#FFF2B8 0%, #FFD9C9 45%, #FFD0DD 60%);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+h1{
+  font-size:clamp(1.5rem,4vw,3rem);
+  margin:0 0 1.25rem 0;
+  letter-spacing:6px;
+  font-weight:700;
+  color:#111;
+}
+.lead{
+  max-width:48ch;
+  color:#222;
+  line-height:1.8;
+}
+.cta{
+   display: inline-flex;            
+  align-items: center;
+  justify-content: center;
+  width: 180px;                     
+  height: 50px;                   
+  background: var(--deep-coral);
+  color: #fff;
+  border-radius: 4px;            
+  text-decoration: none;
+  font-size: 0.75rem;             
+  font-weight: 600;
+  transition: background .3s ease, transform .3s ease;
+  margin-top: 1.5rem;
+}
+.cta:hover{
+  background:#e25955;
+  transform:scale(1.02);
+}
+.hero-right{position:relative;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.hero-right:hover .hero-img{transform:scale(1.05);}
+
+/* GALLERY + FEATURE */
+.section{
+  max-width:var(--max-width);
+  margin:3rem auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+  padding:0 1rem;
+  
+}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.gallery .tall{grid-row:span 2;height:100%;min-height:420px;}
+.gallery img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:px;
+  transition:transform .4s ease,box-shadow .4s ease;
+}
+.gallery img:hover{
+  transform:scale(1.05);
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.feature{
+  align-self:center;
+  padding:2.0rem;
+  margin: auto;
+  background:linear-gradient(180deg,rgba(245,107,103,0.95),rgba(245,107,103,0.95));
+  color:#111;
+  border-radius:3px;
+  height:30%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.feature small{color:rgba(0,0,0,0.6);font-weight:400;}
+.feature h2{
+  font-size:clamp(2rem,5vw,3.6rem);
+  margin:0 0 1rem 0;
+  letter-spacing:4px;
+  font-weight:700;
+  color:#0b0b0b;
+}
+.feature .link{
+  margin-top:1.25rem;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  text-decoration:none;
+  color:#111;
+  transition:color .3s ease;
+}
+.feature .link:hover{color:#fff;}
+
+/* POPUP MODAL (pure CSS) */
+#popup-toggle{display:none;}
+.popup-overlay{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;visibility:hidden;
+  transition:opacity .4s ease;
+}
+#popup-toggle:checked + .popup-overlay{
+  opacity:1;
+  visibility:visible;
+}
+.popup-content{
+  background:#fff;color:#111;
+  padding:2rem;
+  border-radius:6px;
+  max-width:400px;
+  text-align:center;
+  transform:scale(0.8);
+  transition:transform .4s ease;
+}
+#popup-toggle:checked + .popup-overlay .popup-content{
+  transform:scale(1);
+}
+.close-btn{
+  display:inline-block;
+  margin-top:1.5rem;
+  padding:.5rem 1rem;
+  background:var(--deep-coral);
+  color:#fff;
+  text-decoration:none;
+  border-radius:4px;
+  transition:background .3s ease;
+}
+.close-btn:hover{background:#e25955;}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .hero{grid-template-columns:1fr;min-height:60vh;}
+  .hero-left{padding:4rem 5vw;}
+  .hero-right{height:45vh;}
+  .section{grid-template-columns:1fr;}
+  .gallery{grid-template-columns:1fr 1fr;}
+  .gallery .tall{min-height:260px;}
+  .feature{order:2;margin-top:1rem;}
+}
+@media(max-width:600px){
+  .menu{display:none;}
+  .hambtn{display:block;}
+  .hero-left{padding:3rem 4vw;}
+  .hero-right{height:36vh;}
+  .gallery{grid-template-columns:1fr;}
+  .gallery .tall{min-height:220px;}
+  .feature h2{font-size:2rem;}
+  .feature{padding:1.25rem;}
+  .lead{font-size:.95rem;}
+}
+.click-wrap{
+   display: inline-flex;         
+  align-items:self-end;           
+  gap: 8px; 
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap">
+    <div class="brand"></div>
+    <nav class="menu" aria-label="Main navigation">
+      <a href="#">Home</a>
+      <a href="#">Order</a>
+      <a href="#">Food</a>
+      <a href="#">Restaurant</a>
+      <a href="#">Testimonials</a>
+      <a href="#">Contact Us</a>
+      <img src="menu-bar.png" alt="Logo" style="height:30px;width:auto;vertical-align:middle;">
+    </nav>
+    
+  </div>
+</header>
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1>LOREM IPSUM</h1>
+      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+ id est vitae dolor rhoncus tristique. Maecenas metus quam,
+ rhoncus euismod lorem in, sollicitudin viverra eros. Donec
+ dictum luctus quam ut tristique. Curabitur nec faucibus purus.
+ Quisque congue sem nec justo mollis, in tincidunt erat pretium.
+ Sed pulvinar, massa ac porta viverra.</p>
+     
+      <label for="popup-toggle" class="cta">Click Me</label>
+    </div>
+    <div class="hero-right">
+      <img class="hero-img" src="Burger.jpg" alt="burger and fries">
+    </div>
+  </section>
+
+  <!-- GALLERY + FEATURE -->
+  <section class="section">
+    <div class="gallery">
+      <img src="Stage.jpg" alt="street night">
+      <img src="food.jpg" alt="table food" class="tall">
+      <img src="street.jpg" alt="shrimp plate">
+    </div>
+    <aside class="feature">
+      <small>LOREM IPSUM</small>
+      <h2>LOREM IPSUM<br>SET ADEMIR</h2>
+      <div class="click-wrap">
+      <a class="link" href="#">Click</a>
+      <img src="click.png" style="height: 20px;width:30px;">
+      </div>
+    </aside>
+  </section>
+</main>
+
+<input type="checkbox" id="popup-toggle">
+<div class="popup-overlay">
+  <div class="popup-content">
+    <h2>Popup Title</h2>
+    <p>This is a CSS-only popup with transition.</p>
+    <label for="popup-toggle" class="close-btn">Close</label>
+  </div>
+</div>
+
+</body>
+</html>
